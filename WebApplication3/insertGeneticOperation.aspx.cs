@@ -103,9 +103,9 @@ namespace WebApplication3
             string txtPathFile = pathFile.FileName;
             string genPopText = txtGenPop.Text;
             string genPopnote = txtGenPopNote.Text;
-            int father = int.Parse(ddlAccessionFather.SelectedValue);
-            int mother = int.Parse(ddlAccessionMother.SelectedValue);
-            int opFather = int.Parse(ddlFatherOp.SelectedValue);
+            int father = int.Parse(txtFather.Text);// int.Parse(ddlAccessionFather.SelectedValue);
+            int mother = int.Parse(txtMother.Text); //int.Parse(ddlAccessionMother.SelectedValue);
+            int opFather = int.Parse(txtFatherOP.Text); //  int.Parse(ddlFatherOp.SelectedValue);
             string field = txtField.Text;
             string subfield = txtSubField.Text;
             List<int> operationsSelected = new List<int>();

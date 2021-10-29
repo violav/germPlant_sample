@@ -55,11 +55,13 @@
                father (same genus and species) <br />
                 <asp:DropDownList ID="ddlAccessionFather" runat="server" DataTextField="description" DataValueField="operation_id">
                 </asp:DropDownList>
+                <asp:TextBox ID="txtFather" runat="server"></asp:TextBox>
             </p>
               <p>
                mother (same genus and species) <br />
                 <asp:DropDownList ID="ddlAccessionMother" runat="server" DataTextField="description" DataValueField="operation_id">
                 </asp:DropDownList>
+                     <asp:TextBox ID="txtMother" runat="server"></asp:TextBox>
             </p>
              <p>
                father operation <br />
@@ -78,6 +80,8 @@
                father operation <br />
                 <asp:DropDownList  ID="ddlFatherOp" runat="server" DataTextField="description" DataValueField="operation_id">
                 </asp:DropDownList>
+
+                  <asp:TextBox ID="txtFatherOP" runat="server"></asp:TextBox>
             </p>
         </div>
           <div class="col-md-4">

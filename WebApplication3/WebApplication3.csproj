@@ -161,6 +161,7 @@
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="insertaccession.aspx" />
     <Content Include="insertGeneticOperation.aspx" />
+    <Content Include="insertSamplingOperation.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -214,8 +215,10 @@
     </Compile>
     <Compile Include="DAL\accession.cs" />
     <Compile Include="DAL\Class1.cs" />
+    <Compile Include="DAL\country.cs" />
     <Compile Include="DAL\operation.cs" />
     <Compile Include="DAL\researcher.cs" />
+    <Compile Include="DAL\Sampling.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -239,6 +242,13 @@
     </Compile>
     <Compile Include="insertGeneticOperation.aspx.designer.cs">
       <DependentUpon>insertGeneticOperation.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="insertSamplingOperation.aspx.cs">
+      <DependentUpon>insertSamplingOperation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="insertSamplingOperation.aspx.designer.cs">
+      <DependentUpon>insertSamplingOperation.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Site.Master.cs">

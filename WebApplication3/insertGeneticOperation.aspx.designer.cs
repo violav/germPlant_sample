@@ -105,6 +105,15 @@ namespace WebApplication3
         protected global::System.Web.UI.WebControls.DropDownList ddlAccessionFather;
 
         /// <summary>
+        /// Controllo txtFather.
+        /// </summary>
+        /// <remarks>
+        /// Campo generato automaticamente.
+        /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtFather;
+
+        /// <summary>
         /// Controllo ddlAccessionMother.
         /// </summary>
         /// <remarks>
@@ -112,6 +121,15 @@ namespace WebApplication3
         /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlAccessionMother;
+
+        /// <summary>
+        /// Controllo txtMother.
+        /// </summary>
+        /// <remarks>
+        /// Campo generato automaticamente.
+        /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtMother;
 
         /// <summary>
         /// Controllo ddlOperations.
@@ -148,6 +166,15 @@ namespace WebApplication3
         /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlFatherOp;
+
+        /// <summary>
+        /// Controllo txtFatherOP.
+        /// </summary>
+        /// <remarks>
+        /// Campo generato automaticamente.
+        /// Per la modifica, spostare la dichiarazione di campo dal file di progettazione al file code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtFatherOP;
 
         /// <summary>
         /// Controllo chkPossibleOp.

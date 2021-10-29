@@ -380,7 +380,7 @@ namespace WebApplication3
 
         #region "SAMPLING"
 
-        private void pusamplingoperation(string connectionString, int accession_id, int operation_id, int site_id, int user_ins, string notes, DateTime operation_date, int researcher_id)
+        public void pusamplingoperation(string connectionString, int accession_id, int operation_id, int site_id, int user_ins, string notes, DateTime operation_date, int researcher_id, string pathFile)
         {
 
             int headerGeneticOperationId = 0;
@@ -389,10 +389,10 @@ namespace WebApplication3
 
 
             // OPERATION HEADER.
-            string queryString = @"INSERT INTO  germschema_viola.genetic_operation_history ( accession_id, op_type_id, operation_date, researcher_id,
+            string queryString = @"INSERT INTO  germschema_viola.operation_history ( accession_id, op_type_id, operation_date, researcher_id,
                          inserting_user_id, notes, pathFile) VALUES 
                         ( :accession_id, :op_type_id, :operation_date, :researcher_id,
-                         inserting_user_id, notes, pathFile) RETURNING operation_id ";
+                         :inserting_user_id, :notes, :pathFile) RETURNING operation_id ";
 
 
             using (NpgsqlConnection connection =
@@ -405,6 +405,9 @@ namespace WebApplication3
                 command.Parameters.AddWithValue("op_type_id", op_type_genica_id);
                 command.Parameters.AddWithValue("operation_date", operation_date);
                 command.Parameters.AddWithValue("researcher_id", researcher_id);
+                command.Parameters.AddWithValue("inserting_user_id", user_ins);
+                command.Parameters.AddWithValue("pathFile", pathFile);
+                command.Parameters.AddWithValue("notes", notes);
 
                 // Open the connection in a try/catch block.
                 // Create and execute the DataReader, writing the result
@@ -423,23 +426,26 @@ namespace WebApplication3
 
                 // GENETIC OPERATION HEADER.
                 queryString = @"INSERT INTO  germschema_viola.sampling (operation_id, site_id, date, accession_id, researcher_id, notes,  inserting_user_id) VALUES 
-                        ( operation_id, site_id, date, accession_id, researcher_id, notes, inserting_date, inserting_user_id
-                        ) RETURNING sampling_id ";
+                        ( :operation_id, :site_id, :date, :accession_id, :researcher_id, :notes, :inserting_user_id ) RETURNING sampling_id ";
 
                 command = new NpgsqlCommand(queryString, connection);
-                command.Parameters.AddWithValue("operation_id", operation_id);
+                command.Parameters.AddWithValue("operation_id", headeroperationId);
                 command.Parameters.AddWithValue("site_id", site_id);
                 command.Parameters.AddWithValue("accession_id", accession_id);
                 command.Parameters.AddWithValue("researcher_id", researcher_id);
                 command.Parameters.AddWithValue("notes", notes);
                 command.Parameters.AddWithValue("inserting_user_id", user_ins);
+                command.Parameters.AddWithValue("date", operation_date);
 
                 // Open the connection in a try/catch block.
                 // Create and execute the DataReader, writing the result
                 // set to the console window.
                 try
                 {
-                    connection.Open();
+                    if (connection.State != ConnectionState.Open)
+                    {
+                        connection.Open();
+                    }
                     headerGeneticOperationId = int.Parse(command.ExecuteScalar().ToString());
                 }
                 catch (Exception ex)
@@ -456,7 +462,7 @@ namespace WebApplication3
 
         #region "CONSERVATION"
 
-        private void conservationoperation(string connectionString, int accession_id, int operation_id, int site_id, int user_ins, string notes, DateTime operation_date, int researcher_id)
+        public void conservationoperation(string connectionString, int accession_id, int operation_id, int site_id, int user_ins, string notes, DateTime operation_date, int researcher_id)
         {
 
             int cionservationoperationId = 0;
