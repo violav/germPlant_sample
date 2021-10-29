@@ -159,6 +159,8 @@
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="insertaccession.aspx" />
+    <Content Include="insertGeneticOperation.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -210,7 +212,10 @@
     <Compile Include="Contact.aspx.designer.cs">
       <DependentUpon>Contact.aspx</DependentUpon>
     </Compile>
+    <Compile Include="DAL\accession.cs" />
     <Compile Include="DAL\Class1.cs" />
+    <Compile Include="DAL\operation.cs" />
+    <Compile Include="DAL\researcher.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -220,6 +225,20 @@
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="insertaccession.aspx.cs">
+      <DependentUpon>insertaccession.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="insertaccession.aspx.designer.cs">
+      <DependentUpon>insertaccession.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="insertGeneticOperation.aspx.cs">
+      <DependentUpon>insertGeneticOperation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="insertGeneticOperation.aspx.designer.cs">
+      <DependentUpon>insertGeneticOperation.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Site.Master.cs">

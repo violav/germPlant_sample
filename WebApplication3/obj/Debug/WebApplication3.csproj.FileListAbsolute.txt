@@ -91,8 +91,8 @@ C:\Users\viola\source\repos\WebApplication3\WebApplication3\bin\Microsoft.AspNet
 C:\Users\viola\source\repos\WebApplication3\WebApplication3\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 C:\Users\viola\source\repos\WebApplication3\WebApplication3\bin\it\System.Web.Optimization.resources.dll
 C:\Users\viola\source\repos\WebApplication3\WebApplication3\bin\it\Microsoft.AspNet.FriendlyUrls.resources.dll
-C:\Users\viola\source\repos\WebApplication3\WebApplication3\obj\Debug\WebApplication3.csproj.AssemblyReference.cache
 C:\Users\viola\source\repos\WebApplication3\WebApplication3\obj\Debug\WebApplication3.csproj.CoreCompileInputs.cache
 C:\Users\viola\source\repos\WebApplication3\WebApplication3\obj\Debug\WebApplication3.csproj.CopyComplete
 C:\Users\viola\source\repos\WebApplication3\WebApplication3\obj\Debug\WebApplication3.dll
 C:\Users\viola\source\repos\WebApplication3\WebApplication3\obj\Debug\WebApplication3.pdb
+C:\Users\viola\source\repos\WebApplication3\WebApplication3\obj\Debug\WebApplication3.csproj.AssemblyReference.cache

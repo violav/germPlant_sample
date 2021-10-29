@@ -5,7 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Web;
 
-namespace WebApplication3.DAL
+namespace WebApplication3
 {
     public class operation
     {
@@ -48,8 +48,70 @@ namespace WebApplication3.DAL
                 Console.ReadLine();
             }
         }
-    
 
+        //public DataTable GetOperations(string connectionString, int tipeId)
+        //{
+        //    return GetOperations(connectionString, tipeId, 0);
+        //}
+
+        public DataTable GetFatherOperation(string connectionString, int accessionId)
+        {
+            //string queryString = "SELECT A.* ";
+            //queryString += "from ((SELECT * from germschema_viola.operation_history   ";
+            //queryString += " WHERE op_type_id =  " + ((int)operations.Genica) ;
+            //queryString += " ) as A   ";
+            //queryString += " INNER JOIN (SELECT * FROM germschema_viola.operation_history  ";
+            //queryString += " WHERE accession_id =  " + accessionId;
+            //queryString += " ) as C  ";
+            //queryString += " ON C.operation_id = A.operation_id )  ";
+
+            string queryString = " SELECT * from ( ";
+            queryString += " select A.* From (";
+            queryString += " 	SELECT * from germschema_viola.operation_history    WHERE op_type_id =  3  ";
+            queryString += " ) as A     ";
+            queryString += " INNER JOIN  ";
+            queryString += " ( ";
+            queryString += " 	SELECT * FROM germschema_viola.operation_history   WHERE accession_id =  9  ";
+            queryString += " ) as C    ";
+            queryString += " ON C.operation_id = A.operation_id ) as TAB ";
+            queryString += " INNER JOIN germschema_viola.genetic_operation AS Gen ";
+            queryString += " ON Gen.operation_id = TAB.operation_id ";
+            queryString += " INNER JOIN germschema_viola.genetic_operation_detail AS GenDet ";
+            queryString += " ON Gen.gen_op_id = GenDet.genetic_operation_id ";
+            queryString += " INNER JOIN germschema_viola.operation_registry AS Reg ";
+            queryString += " ON GenDet.op_registry_id = Reg.operation_id ";
+
+            DataSet ds_a = new DataSet();
+
+            using (NpgsqlConnection connection =
+                new NpgsqlConnection(connectionString))
+            {
+                NpgsqlCommand command = new NpgsqlCommand(queryString, connection);
+                try
+                {
+                    connection.Open();
+
+                    NpgsqlDataAdapter myDataAdapter = new NpgsqlDataAdapter(command);
+                    myDataAdapter.Fill(ds_a, "Library");
+
+                    if (ds_a != null)
+                    {
+                        if (ds_a.Tables.Count > 0)
+                        {
+                            return ds_a.Tables[0];
+                        }
+                    }
+
+                    return null;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return null;
+                }
+                Console.ReadLine();
+            }
+        }
         /// <summary>
         /// All available operations
         /// </summary>
@@ -60,9 +122,22 @@ namespace WebApplication3.DAL
             string queryString = "SELECT A.* from germschema_viola.operation_registry as A  ";
             if (tipeId > 0)
             {
-                 queryString += " INNER JOIN germschema_viola.operation_type as B  ";
-                queryString += " ON B.type_id = A.op_type_id  ";
+                 queryString += " INNER JOIN germschema_viola.operation_type_registry as B  ";
+                queryString += " ON B.op_type_id = A.type_id  ";
+                queryString += " WHERE A.type_id =  " + tipeId;
             }
+            //if (accessionId > 0)
+            //{
+            //    //queryString += " INNER JOIN germschema_viola.operation_history as C  ";
+            //    //queryString += " ON C.operation_reg_id = A.operation_reg_id  ";
+            //    //queryString += " WHERE C.accession_id =  " + accessionId;
+
+
+            //    queryString += " INNER JOIN (SELECT * FROM germschema_viola.operation_history  ";
+            //    queryString += " WHERE C.accession_id =  " + accessionId;
+            //    queryString += " ) as C  ";
+            //    queryString += " ON C.operation_reg_id = A.operation_reg_id  ";
+            //}
 
             DataSet ds_a = new DataSet();
 
@@ -102,6 +177,20 @@ namespace WebApplication3.DAL
             return GetOperations(connectionString, 0);
         }
 
+        public DataTable GetGeneticOperations(string connectionString)
+        {
+            return GetOperations(connectionString, ((int)operations.Genica));
+        }
+
+        public DataTable GetGeneticPopulation(string connectionString)
+        {
+            return GetOperations(connectionString, ((int)operations.Genetic_constitution_of_the_population));
+        }
+
+        public DataTable GetGeneticOperationByAccessioId(string connectionString, int accessionId)
+        {
+            return GetOperations(connectionString, ((int)operations.Genica));
+        }
         /// <summary>
         /// All available operations
         /// </summary>
@@ -109,8 +198,18 @@ namespace WebApplication3.DAL
         /// <returns></returns>
         public DataTable GetOperationtypes(string connectionString, string tipo)
         {
-            string queryString = "SELECT A.* from germschema_viola.operation_type_registry where decription= :tipo  ";
-          
+            string queryString = "";
+
+            if (!string.IsNullOrEmpty(tipo))
+            {
+                queryString = " SELECT * from germschema_viola.operation_type_registry where description= :tipo  ";
+
+            }
+            else 
+            {
+                queryString = " SELECT * from germschema_viola.operation_type_registry  ";
+            }
+
             DataSet ds_a = new DataSet();
 
             using (NpgsqlConnection connection =
@@ -147,21 +246,21 @@ namespace WebApplication3.DAL
         }
         #region "GENETICOPERATION"
 
-        private void putgeneticoperation(string connectionString, int accession_id, int operation_id,  int gen_program_id, int gen_population_id
-                    , int gen_population_text, string gen_population_note, int access_father_id, int access_mother_id, int fieldnumber, int subfieldnumber
-        , int op_father_id, int genealogy, int date_ins, int user_ins, List<int> op_registry_id, DateTime operation_date, int researcher_id)
+        public void putgeneticoperation(string connectionString, int accession_id, int researcher_id, DateTime operation_date, int user_ins, string opHistoryNote, string opPathFile, int operation_id,  int gen_program_id, int gen_population_id
+                    , string gen_population_text, string gen_population_note, int access_father_id, int access_mother_id, string fieldnumber, string subfieldnumber
+        , int op_father_id, string genealogy, int date_ins,  List<int> op_registry_id)
         {
-
+          
             int headerGeneticOperationId = 0;
             int headeroperationId = 0;
-            int op_type_genica_id = int.Parse( GetOperationtypes(connectionString, "GENICA").Rows[0]["op_type_id"].ToString());
+            int op_type_genica_id = int.Parse( GetOperationtypes(connectionString, "Genica").Rows[0]["op_type_id"].ToString());
 
 
             // OPERATION HEADER.
-            string queryString = @"INSERT INTO  germschema_viola.genetic_operation_history ( accession_id, op_type_id, operation_date, researcher_id,
+            string queryString = @"INSERT INTO  germschema_viola.operation_history ( accession_id, op_type_id, operation_date, researcher_id,
                          inserting_user_id, notes, pathFile) VALUES 
                         ( :accession_id, :op_type_id, :operation_date, :researcher_id,
-                         inserting_user_id, notes, pathFile) RETURNING operation_id ";
+                         :inserting_user_id, :notes, :pathFile) RETURNING operation_id ";
 
 
             using (NpgsqlConnection connection =
@@ -175,6 +274,10 @@ namespace WebApplication3.DAL
                 command.Parameters.AddWithValue("operation_date", operation_date);
                 command.Parameters.AddWithValue("researcher_id", researcher_id);
 
+                command.Parameters.AddWithValue("inserting_user_id", user_ins);
+                command.Parameters.AddWithValue("notes", opHistoryNote);
+                command.Parameters.AddWithValue("pathFile", opPathFile);
+
                 // Open the connection in a try/catch block.
                 // Create and execute the DataReader, writing the result
                 // set to the console window.
@@ -187,19 +290,23 @@ namespace WebApplication3.DAL
                 {
                     return;
                 }
+                finally 
+                {
+                    connection.Close();
+                }
+
                 if (headeroperationId == 0)
                     return;
 
-                // GENETIC OPERATION HEADER.
-                queryString = @"INSERT INTO  germschema_viola.genetic_operation ( operation_id, op_type_id, operation_reg_id, gen_program_id, gen_population_id
-                        , gen_population_text, gen_population_note, access_father_id, access_mother_id, fieldnumber, subfieldnumber, op_father_id, genealogy,  user_ins) VALUES 
-                        ( :operation_id, :op_type_id, :operation_reg_id, :gen_program_id, :gen_population_id, :gen_population_text, :gen_population_note, :access_father_id, :access_mother_id, 
-                        :fieldnumber, :subfieldnumber, :op_father_id, :genealogy, :user_ins
-                        ) RETURNING gen_op_id ";
+                //// GENETIC OPERATION HEADER.
+                queryString = @"INSERT INTO  germschema_viola.genetic_operation ( operation_id, op_type_id,  gen_program_id, gen_population_id,
+                             gen_population_text, gen_population_note, access_father_id, access_mother_id, fieldnumber, subfieldnumber, op_father_id, genealogy,  user_ins) VALUES 
+                        ( :operation_id, :op_type_id, :gen_program_id, :gen_population_id, :gen_population_text, :gen_population_note, :access_father_id, :access_mother_id, :fieldnumber, :subfieldnumber, :op_father_id, :genealogy, :user_ins ) RETURNING gen_op_id ";
 
+  
                 command = new NpgsqlCommand(queryString, connection);
-                command.Parameters.AddWithValue("operation_id", operation_id);
-                command.Parameters.AddWithValue("operation_reg_id", headeroperationId);
+                command.Parameters.AddWithValue("operation_id", headeroperationId);
+                command.Parameters.AddWithValue("op_type_id", op_type_genica_id);
                 command.Parameters.AddWithValue("gen_program_id", gen_program_id);
                 command.Parameters.AddWithValue("gen_population_id", gen_population_id);
                 command.Parameters.AddWithValue("gen_population_text", gen_population_text);
@@ -218,12 +325,19 @@ namespace WebApplication3.DAL
                 // set to the console window.
                 try
                 {
-                    connection.Open();
+                    if (connection.State != ConnectionState.Open)
+                    {
+                        connection.Open();
+                    }
                     headerGeneticOperationId = int.Parse(command.ExecuteScalar().ToString());
                 }
                 catch (Exception ex)
                 {
                     return;
+                }
+                finally
+                {
+                    connection.Close();
                 }
 
                 if (headerGeneticOperationId == 0)
@@ -234,20 +348,28 @@ namespace WebApplication3.DAL
                     // GENETIC OPERATION HEADER.
                     queryString = @"INSERT INTO  germschema_viola.genetic_operation_detail ( genetic_operation_id, op_registry_id,  user_ins) VALUES 
                         ( :genetic_operation_id, :op_registry_id,  :user_ins
-                        ) RETURNING gen_op_id ";
+                        ) RETURNING detail_id ";
 
                     command = new NpgsqlCommand(queryString, connection);
                     command.Parameters.AddWithValue("genetic_operation_id", headerGeneticOperationId);
-                    command.Parameters.AddWithValue("op_registry_id", op_registry_id);
+                    command.Parameters.AddWithValue("op_registry_id", reg);
                     command.Parameters.AddWithValue("user_ins", user_ins);
                     try
                     {
-                        connection.Open();
+                        if (connection.State != ConnectionState.Open)
+                        {
+                            connection.Open();
+                        }
                         headerGeneticOperationId = int.Parse(command.ExecuteScalar().ToString());
                     }
                     catch (Exception ex)
                     {
                         return;
+                    }
+                    finally
+                    {
+                        connection.Close();
+                        connection.Dispose();
                     }
                 }
             }
@@ -398,5 +520,14 @@ namespace WebApplication3.DAL
             }
         }
         #endregion
+
+        public enum operations
+        {
+            none,
+            Campionamento,
+            Conservazione,
+            Genica,
+            Genetic_constitution_of_the_population
+        }
     }
 }
